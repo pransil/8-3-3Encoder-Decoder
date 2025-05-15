@@ -1,0 +1,6 @@
+cd path/to/your/project
+git init  # if needed
+git remote add origin https://github.com/pransil/8-3-3Encoder-Decoder.git  # if needed
+git add .
+git commit -m "Initial commit"
+git push origin main

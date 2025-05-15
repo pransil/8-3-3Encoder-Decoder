@@ -63,6 +63,7 @@ def test_model_sav(model, test_inputs):
     correct = 0
     total = 0   
     dim = test_inputs.shape[0]
+    print("test-inputs: \n", test_inputs)
     
     #run the model on the test inputs, and check if the output is the same as the input, create a confusion matrix  
     #confusion_matrix = torch.zeros(test_input_dim, test_input_dim)
@@ -77,7 +78,7 @@ def test_model_sav(model, test_inputs):
             correct = (predicted == test_inputs).all(dim=1).sum().item()
             total = test_inputs.size(0)
             accuracy = correct / total
-    confusion_matrix = create_confusion_matrix(model, dim)
+    confusion_matrix = create_confusion_matrix(model, test_inputs)
     print(f"Accuracy: {accuracy*100:.2f}% ({correct}/{total} correct)")
     write_confusion_matrix_to_file(confusion_matrix, accuracy, correct, total)
 
@@ -85,10 +86,11 @@ def test_model_sav(model, test_inputs):
 
 
 # Create a confusion matrix
-def create_confusion_matrix(model, test_input_dim):
-    test_inputs = create_test_inputs(test_input_dim)
-    confusion_matrix = torch.zeros(test_input_dim, test_input_dim)
-    for i in range(test_input_dim):
+def create_confusion_matrix(model, test_inputs):
+    #test_inputs = create_test_inputs(test_input_dim)
+    dim = test_inputs.shape[0]
+    confusion_matrix = torch.zeros(dim, dim)
+    for i in range(dim):
         with torch.no_grad():
             output = model(test_inputs[i:i+1])  # Process one input at a time
            
